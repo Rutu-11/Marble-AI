@@ -8,6 +8,46 @@ import { TabView } from "../../components/dashboard/TabView";
 import { RecentSales } from "../../components/dashboard/RecentSales";
 import { IChartDatum, TTab } from "../../interfaces";
 
+const DB = {
+    "data":{
+    "data": [
+        {
+                "date": "2023-12-23T00:00:00.000Z",
+                "value": 5096
+              },
+      {
+        "date": "2024-02-16T00:00:00.000Z",
+        "value": 8128
+      },
+      {
+        "date": "2024-04-17T00:00:00.000Z",
+        "value": 6254
+      },
+      {
+        "date": "2024-06-18T00:00:00.000Z",
+        "value": 6076
+      },
+      {
+        "date": "2024-08-19T00:00:00.000Z",
+        "value": 17962
+      },
+      {
+        "date": "2024-10-20T00:00:00.000Z",
+        "value": 9622
+      },
+      {
+        "date": "2024-12-21T00:00:00.000Z",
+        "value": 15668
+      },
+      {
+        "date": "2025-02-22T00:00:00.000Z",
+        "value": 18872
+      },
+    ],
+    "trend": 80,
+    "total": 5596
+}
+  }
 const filters: CrudFilter[] = [
     {
         field: "start",
@@ -38,23 +78,25 @@ export const Dashboard: React.FC = () => {
     });
 
     const useMemoizedChartData = (d: any) => {
+        console.log("d",d)
         return useMemo(() => {
             return d?.data?.data?.map((item: IChartDatum) => ({
                 date: new Intl.DateTimeFormat("en-US", {
                     month: "short",
                     year: "numeric",
-                    day: "numeric",
+                    // day: "numeric",
                 }).format(new Date(item.date)),
                 value: item?.value,
             }));
         }, [d]);
     };
 
-    
-    const memoizedRevenueData = useMemoizedChartData(dailyRevenue);
+    console.log('dailyRevenue',dailyRevenue)
+    console.log('DB',DB)
+    const memoizedRevenueData = useMemoizedChartData(DB);
     // const memoizedOrdersData = useMemoizedChartData(dailyOrders);
     // const memoizedNewCustomersData = useMemoizedChartData(newCustomers);
-
+console.log('memoizedRevenueData',memoizedRevenueData)
     const tabs: TTab[] = [
         {
             id: 1,

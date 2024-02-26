@@ -29,8 +29,13 @@ import {
 } from "./pages/categories";
 import { HomeIcon, ShoppingCartIcon, TagIcon } from "@heroicons/react/20/solid";
 import { Dashboard } from "./pages/dashboard";
-
+import { useEffect } from "react";
+import Modal from 'react-modal'
 function App() {
+    useEffect(() => {
+        Modal.setAppElement('#root'); // Set the app element
+    }, []);
+
     return (
         <BrowserRouter>
             <GitHubBanner />
