@@ -70,8 +70,8 @@ export const KpiCard = ({
       ) : (
         <>
           <div
-            className={`stat my-2 py-6 flex-1 border-l-4 rounded bg-white hover:bg-[#e3e3e3]  `}
-            style={{ borderColor: colors?.stroke }}
+            className={`stat my-2 py-6 flex-1 rounded bg-white hover:bg-[#e3e3e3]  `}
+            // style={{ borderColor: colors?.stroke }}
             onMouseEnter={() => setShowEdit(!showEdit)}
             onMouseLeave={() => setShowEdit(!showEdit)}
           >
@@ -83,7 +83,9 @@ export const KpiCard = ({
                 onMouseLeave={toggleModal}
                 style={{
                   marginBottom: "0.2em", // Add padding to create space between text and underline
-                  textDecoration: "underline dotted",
+                  textDecoration: "underline dashed",
+                  textDecorationColor: "gray", // Add textDecorationColor property
+                  textDecorationThickness: "0.1em", // Add textDecorationThickness property for space
                 }}
               >
                 {title}
@@ -141,13 +143,13 @@ export const KpiCard = ({
               </div>
             </div>
 
-            <div className="stat-value flex " style={{ color: colors?.stroke }}>
+            <div className="stat-value flex " >
               {formatTotal(total ?? "...")}
               <div className="flex items-center ml-[0.2rem]">
                 <AiFillCaretUp className="w-5 h-5" style={{ color: "black" }} />
                 <span
                   className="mx-1 text-sm font-bold"
-                  style={{ color: textColor }}
+                  // style={{ color: textColor }}
                 >
                   {percent}
                 </span>

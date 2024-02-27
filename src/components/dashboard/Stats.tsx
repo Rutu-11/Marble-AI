@@ -96,7 +96,7 @@ const Stats = ({ dailyRevenue, dailyOrders, newCustomers, tabs }: TStats) => {
         placeholder="your_placeholder_value"
       >
         <div className="w-full mx-auto mb-4 flex flex-col justify-center items-stretch md:flex-row md:justify-between drop-shadow-md">
-          <div className="w-full mx-auto md:flex-1 ">
+          <div className="w-full mx-auto md:flex-1 mr-2 ">
             <KpiCard
               title="Online Store Sessions"
               data={dailyRevenue}
