@@ -1,8 +1,8 @@
-# Project Title 
+# Marble-AI Assignment
 
 ## Description
 
-This project is a web application created using React and various npm packages to implement a pixel-perfect UI design based on a provided Figma template. The application utilizes several npm packages for UI components, data visualization, and state management. It includes features such as loading skeletons for displaying loading states, line charts for visualizing data, mouse-over events for displaying pop-ups, and accordions for toggling the visibility of components.
+This project is a web application created using React and Refine, and various other npm packages to implement a pixel-perfect UI design based on a provided Figma template. The application utilizes several npm packages for UI components, data visualization, and state management. It includes features such as loading skeletons for displaying loading states, line charts for visualizing data, mouse-over events for displaying pop-ups, and accordions for toggling the visibility of components.
 
 ## Installation
 
@@ -10,12 +10,12 @@ To run the application locally, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Rutu-11/Marble-AI.git
    ```
 
 2. Navigate to the project directory:
    ```bash
-   cd <project-directory>
+   cd Marble-AI
    ```
 
 3. Install dependencies using npm:
@@ -28,7 +28,7 @@ To run the application locally, follow these steps:
    npm run dev
    ```
 
-5. Open your browser and visit `http://localhost:3000` to view the application.
+5. Open your browser and visit `http://127.0.0.1:5173/` to view the application.
 
 ## Dependencies
 
@@ -52,6 +52,19 @@ The project relies on the following npm packages:
 - `react-modal`
 - `react-router-dom`
 - `recharts`
+
+
+## DevDependencies
+
+The project relies on the following npm packages:
+
+- `tailwindcss`
+- `typescript`
+- `vite`
+- `daisyui`
+- `postcss`
+
+
 
 ## Usage
 
