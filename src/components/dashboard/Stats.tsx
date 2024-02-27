@@ -20,6 +20,8 @@ import { TabView } from "./TabView";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
+import "react-datepicker/dist/react-datepicker.css";
+
 type IconProps = {
   id: string | number; // Assuming id is of type string or number
   open: string | number; // Assuming open is of type string or number
@@ -66,6 +68,17 @@ const Stats = ({ dailyRevenue, dailyOrders, newCustomers, tabs }: TStats) => {
 
   const [isLoading, setIsLoading] = useState(true); // State to track loading status
 
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const handleStartDateChange = (date:any) => {
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date:any) => {
+    setEndDate(date);
+  };
+
   useEffect(() => {
     // Simulating data fetching delay
     const timeout = setTimeout(() => {
@@ -87,14 +100,10 @@ const Stats = ({ dailyRevenue, dailyOrders, newCustomers, tabs }: TStats) => {
   const toggleAccordion = () => {
     setOpen(open === 1 ? 0 : 1); // Toggle to open if currently closed, or close if currently open
   };
-
+console.log('date', startDate,endDate)
   return (
     <>
-      <Accordion
-        open={open === 1}
-        id="1"
-        placeholder="your_placeholder_value"
-      >
+      <Accordion open={open === 1} id="1" placeholder="your_placeholder_value">
         <div className="w-full mx-auto mb-4 flex flex-col justify-center items-stretch md:flex-row md:justify-between drop-shadow-md">
           <div className="w-full mx-auto md:flex-1 mr-2 ">
             <KpiCard
@@ -140,22 +149,56 @@ const Stats = ({ dailyRevenue, dailyOrders, newCustomers, tabs }: TStats) => {
               }}
             />
           </div>
-         { isLoading ? (<SkeletonTheme baseColor="#e3e3e3" highlightColor="#878787">
+          {isLoading ? (
+            <SkeletonTheme baseColor="#e3e3e3" highlightColor="#878787">
               <p style={{ marginBottom: "5px" }}>
                 <Skeleton width={"7vw"} height={"16vh"} />
               </p>
-            </SkeletonTheme>):(<div className="w-[7%] h-[7.2rem] mt-2 ml-1 mx-auto flex items-center justify-center border bg-white">
-            <Icon id={1} open={open} onClick={toggleAccordion} />
-          </div>)}
+            </SkeletonTheme>
+          ) : (
+            <div className="w-[7%] h-[7.2rem] mt-2 ml-1 mx-auto flex items-center justify-center border bg-white">
+              <Icon id={1} open={open} onClick={toggleAccordion} />
+            </div>
+          )}
         </div>
 
         <AccordionHeader
-          onClick={() => handleOpen(1)}
+          //onClick={() => handleOpen(1)}
           title="Accordion Title"
           id="accordion-id"
           placeholder="your_placeholder_value"
         >
-          {" "}
+          <div className="flex border border-green-500 w-[90%] justify-end" >
+          <div className="my-2 flex items-center mr-[4rem]">
+            <label
+              htmlFor="start_date"
+              className="mr-2 text-sm font-medium text-gray-700 whitespace-nowrap"
+            >
+              Start Date
+            </label>
+            <input
+              id="start_date"
+              type="date"
+              className="appearance-none bg-gray-200 text-sm text-gray-700 border border-gray-200 rounded py-2 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 focus:border-none"
+              onChange={(e)=>handleStartDateChange(e.target.value)}
+            />
+          </div>
+
+          <div className="my-2 flex items-center">
+            <label
+              htmlFor="start_date"
+              className="mr-2 text-sm font-medium text-gray-700 whitespace-nowrap"
+            >
+              End Date
+            </label>
+            <input
+              id="start_date"
+              type="date"
+              className="appearance-none bg-gray-200 text-sm text-gray-700 border border-gray-200 rounded py-2 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 focus:border-none"
+              onChange={(e)=>handleEndDateChange(e.target.value)}
+            />
+          </div>
+          </div>
         </AccordionHeader>
         <AccordionBody>
           {!isLoading && tabs ? (

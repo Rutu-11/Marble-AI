@@ -191,13 +191,18 @@ const CustomLegend: React.FC<CustomLegendProps> = ({ payload }) => {
           key={`item-${index}`}
           className="flex items-center mb-[8px] bg-[#f1f1f1 ml-[50px] px-4 mt-4"
         >
-          <div
+          {/* <div
             style={{
               borderLeft: `15px solid ${entry.color}`,
               height: "3px",
               marginRight: "8px",
             }}
-          />
+          /> */} <span
+  className={`mr-3 border-t-4 ${index === 0 ? 'border-solid' : 'border-dashed'} border-[${entry.color}] text-center`}
+  style={{ display: "inline-block", width: "25px" }}
+></span>
+
+
           <span> {formatDate(DB[0].name.toString())}</span> {`\u00A0`}
           <span> - {formatDate(DB[DB.length - 1].name.toString())}</span>
         </li>
