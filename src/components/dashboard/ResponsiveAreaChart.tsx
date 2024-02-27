@@ -1,13 +1,5 @@
 import React, { useMemo, useState } from "react";
-// import {
-//     ResponsiveContainer,
-//     AreaChart,
-//     CartesianGrid,
-//     XAxis,
-//     YAxis,
-//     Tooltip,
-//     Area,
-// } from "recharts";
+import Increment from "../../assets/Increment.svg";
 import {
   LineChart,
   Line,
@@ -16,11 +8,11 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from "recharts";
 import { ChartTooltip } from "../../components/dashboard/ChartTooltip";
 import { IChartDatum } from "../../interfaces";
-import EditOnHover from "../../assets/StatusHover.svg"
+import EditOnHover from "../../assets/StatusHover.svg";
 type TResponsiveAreaChartProps = {
   kpi: string;
   data: IChartDatum[];
@@ -36,6 +28,15 @@ interface DataItem {
   pv: number;
   amt: number;
 }
+
+type LegendItem = {
+  color: string;
+  value: string | number; // Assuming value is a string
+};
+
+type CustomLegendProps = {
+  payload: LegendItem[];
+};
 
 const DB: DataItem[] = [
   {
@@ -118,6 +119,12 @@ const DB: DataItem[] = [
   },
 ];
 
+// Transform DataItem to LegendItem
+const legendData: LegendItem[] = DB.map((item, index) => ({
+  color: `color_${index}`, // You can provide a default color here
+  value: item.uv, // Assuming 'uv' property is the value you want to use
+}));
+
 const CustomTooltip: React.FC<any> = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const line1Color = payload[0].color;
@@ -131,17 +138,32 @@ const CustomTooltip: React.FC<any> = ({ active, payload }) => {
     const [month2, year2] = name2.split(" ");
     const uvValue2 = payload[1].value;
 
+    // Calculate percentage change
+    const percentageChange = ((uvValue1 - uvValue2) / uvValue2) * 100;
     return (
-      <div className="w-[200px] border border-red-500">
-        {/* <span className=" w-10" style={{ backgroundColor:"black" , width:"100px" }}>   66</span> */}
-        <p
-          className=" border-l-10 border-blue "
-          style={{ borderColor: payload[0]?.color }}
-        >{`${month1} ${year1}  \u00A0\u00A0\u00A0 ${uvValue1}`}</p>
-        {/* <span className="line" style={{ backgroundColor: line2Color }}></span> */}
-        <p className="intro">{`${month2} ${
-          Number(year2) - 1
-        } \u00A0\u00A0\u00A0 ${uvValue2}`}</p>
+      <div className="w-[15rem] border border-gray-300 px-2 bg-[#f1f1f1]">
+        <div className=" bg-[#f1f1f1] flex items-center">
+          <span
+            className={`mr-3 border-t-4 border-[#56a8de] text-center`}
+            style={{ display: "inline-block", width: "20px" }}
+          ></span>
+          
+          <span
+            className=" border-l-10 border-blue "
+            style={{ borderColor: payload[0]?.color }}
+          >{`${month1} ${year1}  \u00A0\u00A0\u00A0 ${uvValue1}`}</span>
+          <img src={Increment} alt="" className="mx-2 ml-3" />{" "}
+          <span>{percentageChange.toFixed(0)}%</span>
+        </div>
+        <div className=" bg-[#f1f1f1] flex items-center mt-2">
+        <span
+            className={`mr-3 border-t-2 border-[#95bcc2] text-center border-dashed`}
+            style={{ display: "inline-block", width: "20px" }}
+          ></span>
+          <span className="intro">{`${month2} ${
+            Number(year2) - 1
+          } \u00A0\u00A0\u00A0 ${uvValue2}`}</span>
+        </div>
       </div>
     );
   }
@@ -149,55 +171,62 @@ const CustomTooltip: React.FC<any> = ({ active, payload }) => {
   return null;
 };
 
-const CustomLegend = ({ payload }) => {
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
-      };
-    return (
-        <ul className="md:flex lg:flex block border border-red-500 justify-end" style={{ listStyleType: 'none', padding: 0 }}>
-        {/* {payload.map((entry, index) => ( */}
-          <li key={`item-0`} className="flex items-center mb-[8px] bg-[#f1f1f1 ml-[50px] px-4 mt-4" >
-            <div style={{ borderLeft: `15px solid ${payload[0].color}`, height: '3px', marginRight: '8px' }} />
-            {/* <span style={{ marginRight: '8px' }}>{entry.value}</span>  */}
-            <span> {formatDate(DB[0].name) }</span> {`\u00A0`}
-            <span> - {formatDate(DB[DB.length - 1].name)}</span>
-          </li>
-          <li key={`item-1`} className="flex items-center mb-[8px] bg-[#f1f1f1 ml-[50px] px-4 mt-4" >
-            <div style={{ borderLeft: `15px solid ${payload[1].color}`, height: '3px', marginRight: '8px' }} />
-            {/* <span style={{ marginRight: '8px' }}>{entry.value}</span>  */}
-            <span> {formatDate(DB[0].name) }</span> {`\u00A0`}
-            <span> - {formatDate(DB[DB.length - 1].name)}</span>
-          </li>
-        {/* ))} */}
-      </ul>
-    );
+const CustomLegend: React.FC<CustomLegendProps> = ({ payload }) => {
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+    });
   };
-  
+
+  return (
+    <ul
+      className="md:flex lg:flex block  justify-end"
+      style={{ listStyleType: "none", padding: 0 }}
+    >
+      {payload.map((entry, index) => (
+        <li
+          key={`item-${index}`}
+          className="flex items-center mb-[8px] bg-[#f1f1f1 ml-[50px] px-4 mt-4"
+        >
+          <div
+            style={{
+              borderLeft: `15px solid ${entry.color}`,
+              height: "3px",
+              marginRight: "8px",
+            }}
+          />
+          <span> {formatDate(DB[0].name.toString())}</span> {`\u00A0`}
+          <span> - {formatDate(DB[DB.length - 1].name.toString())}</span>
+        </li>
+      ))}
+    </ul>
+  );
+};
 
 export const ResponsiveAreaChart = ({
   kpi,
   data,
   colors,
 }: TResponsiveAreaChartProps) => {
-    const [opacity, setOpacity] = useState<{ [key: string]: number }>({
-        uv: 1,
-        pv: 1,
-      });
-    
-      const handleMouseEnter = (payload: any, index: number) => {
-        const { dataKey } = payload;
-        setOpacity((prevOpacity) => ({ ...prevOpacity, [dataKey]: 0.5 }));
-      };
-    
-      const handleMouseLeave = (payload: any, index: number) => {
-        const { dataKey } = payload;
-        setOpacity((prevOpacity) => ({ ...prevOpacity, [dataKey]: 1 }));
-      };
-    
-      
+  const [opacity, setOpacity] = useState<{ [key: string]: number }>({
+    uv: 1,
+    pv: 1,
+  });
+
+  const handleMouseEnter = (payload: any, index: number) => {
+    const { dataKey } = payload;
+    setOpacity((prevOpacity) => ({ ...prevOpacity, [dataKey]: 0.5 }));
+  };
+
+  const handleMouseLeave = (payload: any, index: number) => {
+    const { dataKey } = payload;
+    setOpacity((prevOpacity) => ({ ...prevOpacity, [dataKey]: 1 }));
+  };
+
   const useMemoizedChartData = (d: DataItem[] | undefined) => {
-    console.log("d", d);
     return useMemo(() => {
       return d?.map((item: DataItem) => ({
         name:
@@ -215,59 +244,9 @@ export const ResponsiveAreaChart = ({
   };
 
   const memoizedRevenueData = useMemoizedChartData(DB);
-  console.log("memoizedRevenueData memoizedRevenueData", memoizedRevenueData);
   return (
     <ResponsiveContainer height={400}>
-      {/* <AreaChart
-                data={data}
-                height={400}
-                margin={{
-                    top: 10,
-                    right: 30,
-                    left: 0,
-                    bottom: 0,
-                }}
-            >
-                <CartesianGrid strokeDasharray="0 0 0" />
-                <XAxis
-                    dataKey="date"
-                    tickCount={data?.length ?? 0}
-                    tick={{
-                        stroke: "light-grey",
-                        strokeWidth: 0.5,
-                        fontSize: "12px",
-                    }}
-                />
-                <YAxis
-                    tickCount={13}
-                    tick={{
-                        stroke: "light-grey",
-                        strokeWidth: 0.5,
-                        fontSize: "12px",
-                    }}
-                    interval="preserveStartEnd"
-                    domain={[0, "dataMax + 10"]}
-                />
-                <Tooltip
-                    content={<ChartTooltip kpi={kpi} colors={colors} />}
-                    wrapperStyle={{
-                        backgroundColor: "rgba(0, 0, 0, 0.7)",
-                        border: "0 solid #000",
-                        borderRadius: "10px",
-                    }}
-                />
-                <Area
-                    type="monotone"
-                    dataKey="value"
-                    stroke={colors?.stroke}
-                    strokeWidth={3}
-                    fill={colors?.fill}
-                    dot={{
-                        stroke: colors?.stroke,
-                        strokeWidth: 3,
-                    }}
-                />
-            </AreaChart> */}
+
       <LineChart
         width={500}
         height={300}
@@ -283,8 +262,7 @@ export const ResponsiveAreaChart = ({
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip content={<CustomTooltip />} />
-        {/* <Legend onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} /> */}
-        <Legend content={<CustomLegend />} />
+        <Legend content={<CustomLegend payload={legendData} />} />
 
         <Line
           type="monotone"

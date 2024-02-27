@@ -96,7 +96,7 @@ function App() {
                             <Route path="/dashboard">
                                 <Route index element={<Dashboard />} />
                             </Route>
-                            {/* <Route path="/products">
+                            <Route path="/products">
                                 <Route index element={<ProductList />} />
                                 <Route
                                     path="create"
@@ -110,8 +110,8 @@ function App() {
                                     path="show/:id"
                                     element={<ProductShow />}
                                 />
-                            </Route> */}
-                            {/* <Route path="/categories">
+                            </Route>
+                            <Route path="/categories">
                                 <Route index element={<CategoryList />} />
                                 <Route
                                     path="create"
@@ -125,7 +125,7 @@ function App() {
                                     path="show/:id"
                                     element={<CategoryShow />}
                                 />
-                            </Route> */}
+                            </Route>
                             <Route path="*" element={<ErrorComponent />} />
                         </Route>
                     </Routes>

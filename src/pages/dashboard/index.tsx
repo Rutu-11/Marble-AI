@@ -82,13 +82,11 @@ export const Dashboard: React.FC = () => {
   });
 
    const useMemoizedChartData = (d: any) => {
-    console.log("d", d);
     return useMemo(() => {
       return d?.data?.data?.map((item: IChartDatum) => ({
         date: new Intl.DateTimeFormat("en-US", {
           month: "short",
           year: "numeric",
-          // day: "numeric",
         }).format(new Date(item.date)),
         value: item?.value,
       }));
@@ -96,8 +94,8 @@ export const Dashboard: React.FC = () => {
   };
 
   const memoizedRevenueData = useMemoizedChartData(DB);
-  // const memoizedOrdersData = useMemoizedChartData(dailyOrders);
-  // const memoizedNewCustomersData = useMemoizedChartData(newCustomers);
+  const memoizedOrdersData = useMemoizedChartData(dailyOrders);
+  const memoizedNewCustomersData = useMemoizedChartData(newCustomers);
 
   const tabs: TTab[] = [
     {
@@ -114,34 +112,34 @@ export const Dashboard: React.FC = () => {
         />
       ),
     },
-    // {
-    //     id: 2,
-    //     label: "Daily Orders",
-    //     content: (
-    //         <ResponsiveBarChart
-    //             kpi="Daily orders"
-    //             data={memoizedOrdersData}
-    //             colors={{
-    //                 stroke: "rgb(255, 159, 64)",
-    //                 fill: "rgba(255, 159, 64, 0.7)",
-    //             }}
-    //         />
-    //     ),
-    // },
-    // {
-    //     id: 3,
-    //     label: "New Customers",
-    //     content: (
-    //         <ResponsiveAreaChart
-    //             kpi="New customers"
-    //             data={memoizedNewCustomersData}
-    //             colors={{
-    //                 stroke: "rgb(76, 175, 80)",
-    //                 fill: "rgba(54, 162, 235, 0.2)",
-    //             }}
-    //         />
-    //     ),
-    // },
+    {
+        id: 2,
+        label: "Daily Orders",
+        content: (
+            <ResponsiveBarChart
+                kpi="Daily orders"
+                data={memoizedOrdersData}
+                colors={{
+                    stroke: "rgb(255, 159, 64)",
+                    fill: "rgba(255, 159, 64, 0.7)",
+                }}
+            />
+        ),
+    },
+    {
+        id: 3,
+        label: "New Customers",
+        content: (
+            <ResponsiveAreaChart
+                kpi="New customers"
+                data={memoizedNewCustomersData}
+                colors={{
+                    stroke: "rgb(76, 175, 80)",
+                    fill: "rgba(54, 162, 235, 0.2)",
+                }}
+            />
+        ),
+    },
   ];
 
   return (
@@ -154,7 +152,7 @@ export const Dashboard: React.FC = () => {
       />
 
      
-      {/* <RecentSales /> */}
+      <RecentSales />
     </>
   );
 };
