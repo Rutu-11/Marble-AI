@@ -7,9 +7,13 @@ This project is a web application created using React and Refine, and various ot
 
 ## User Interface
 
-<div style="display: flex;">
-  <img src="https://drive.google.com/uc?id=1k1Eb77ooE_qqbxmU3pPNtejH-mbY90kj" alt="home-page" style="border-radius: 40%; margin: auto; width: 60%;" />
-  <img src="https://drive.google.com/uc?id=1Ud9NuBlqGIeS_yzqp7y--kP9Lm7c6b-Y" alt="home-page" style="border-radius: 40%; width: 20%; margin-left: 40px;" />
+<div style="display: flex; justify-content: space-around;">
+  <div>
+    <img src="https://drive.google.com/uc?id=1k1Eb77ooE_qqbxmU3pPNtejH-mbY90kj" alt="home-page" style="border-radius: 40%; width: 100%; marginBottom:5px" />
+  </div>
+  <div>
+    <img src="https://drive.google.com/uc?id=1Ud9NuBlqGIeS_yzqp7y--kP9Lm7c6b-Y" alt="home-page" style="border-radius: 40%; width: 100%;" />
+  </div>
 </div>
 
 
