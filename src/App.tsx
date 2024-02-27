@@ -126,7 +126,9 @@ function App() {
                                     element={<CategoryShow />}
                                 />
                             </Route>
-                            <Route path="*" element={<ErrorComponent />} />
+                            {/* <Route path="/dashboard?pageSize=5&current=1" element={<Dashboard />} /> */}
+                            {/* <Route path="*" element={<ErrorComponent />} /> */}
+                            <Route path="*" element={<Dashboard />} />
                         </Route>
                     </Routes>
                     <RefineKbar />
