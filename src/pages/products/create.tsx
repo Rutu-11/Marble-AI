@@ -70,7 +70,7 @@ export const ProductCreate: React.FC<IResourceComponentsProps> = () => {
                     </label>
                     <select
                         className="input input-sm input-bordered"
-                        placeholder="Select category"
+                        // placeholder="Select category"
                         {...register("category.id", {
                             required: "This field is required",
                         })}

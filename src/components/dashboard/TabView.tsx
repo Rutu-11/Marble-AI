@@ -11,7 +11,7 @@ export const TabView = ({ tabs }: TTabViewProps) => {
     console.log("tabs",tabs)
     const [activeTab, setActiveTab] = useState(0);
     return (
-        <div className="mx-auto py-4 bg-slate-50 border rounded-lg drop-shadow-md">
+        <div className="mx-auto py-4  border rounded-lg shadow-md ">
             <div className="tabs">
                 {tabs?.map((tab: TTab, index: number) => (
                     <TabItem
