@@ -9,9 +9,11 @@ This project is a web application created using React and Refine, and various ot
 
 <div style="display: flex; justify-content: space-around;">
   <div>
+    <h3>Loading Skeleton</h3>
     <img src="https://drive.google.com/uc?id=1k1Eb77ooE_qqbxmU3pPNtejH-mbY90kj" alt="home-page" style="border-radius: 40%; width: 100%; marginBottom:5px" />
   </div>
   <div>
+<h3>Dashboard</h3>
     <img src="https://drive.google.com/uc?id=1Ud9NuBlqGIeS_yzqp7y--kP9Lm7c6b-Y" alt="home-page" style="border-radius: 40%; width: 100%;" />
   </div>
 </div>
