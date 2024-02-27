@@ -4,6 +4,12 @@
 
 This project is a web application created using React and Refine, and various other npm packages to implement a pixel-perfect UI design based on a provided Figma template. The application utilizes several npm packages for UI components, data visualization, and state management. It includes features such as loading skeletons for displaying loading states, line charts for visualizing data, mouse-over events for displaying pop-ups, and accordions for toggling the visibility of components.
 
+## User Interface
+
+<div style="display: flex;">
+  <img src="https://drive.google.com/file/d/1k1Eb77ooE_qqbxmU3pPNtejH-mbY90kj/view?usp=sharing" alt="home-page" style="border-radius: 40%; margin: auto; width: 60%;" />
+  <img src="https://drive.google.com/file/d/1Ud9NuBlqGIeS_yzqp7y--kP9Lm7c6b-Y/view?usp=sharing" alt="home-page" style="border-radius: 40%; width: 20%; marginLeft: 40px" />
+</div>
 ## Installation
 
 To run the application locally, follow these steps:
@@ -84,6 +90,3 @@ The application is deployed and accessible at the following link: [Deployed App]
 
 Contributions to the project are welcome. If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
