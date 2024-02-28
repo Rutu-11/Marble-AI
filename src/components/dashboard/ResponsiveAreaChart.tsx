@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Increment from "../../assets/Increment.svg";
 import {
   LineChart,
@@ -13,6 +13,7 @@ import {
 import { ChartTooltip } from "../../components/dashboard/ChartTooltip";
 import { IChartDatum } from "../../interfaces";
 import EditOnHover from "../../assets/StatusHover.svg";
+import DB from "../../DB.json"
 type TResponsiveAreaChartProps = {
   kpi: string;
   data: IChartDatum[];
@@ -38,86 +39,86 @@ type CustomLegendProps = {
   payload: LegendItem[];
 };
 
-const DB: DataItem[] = [
-  {
-    name: new Date(2023, 1, 1),
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: new Date(2023, 3, 1),
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: new Date(2023, 5, 1),
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: new Date(2023, 7, 1),
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: new Date(2023, 9, 1),
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: new Date(2023, 11, 1),
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: new Date(2024, 1, 1),
-    uv: 6490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: new Date(2024, 3, 1),
-    uv: 3490,
-    pv: 9300,
-    amt: 2100,
-  },
-  {
-    name: new Date(2024, 5, 1),
-    uv: 3490,
-    pv: 5300,
-    amt: 2100,
-  },
-  {
-    name: new Date(2024, 7, 1),
-    uv: 5490,
-    pv: 9300,
-    amt: 2100,
-  },
-  {
-    name: new Date(2024, 9, 1),
-    uv: 3490,
-    pv: 7300,
-    amt: 2100,
-  },
-  {
-    name: new Date(2024, 11, 1),
-    uv: 3490,
-    pv: 5300,
-    amt: 2100,
-  },
-  {
-    name: new Date(2025, 1, 1),
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+// const DB: DataItem[] = [
+//   {
+//     name: new Date(2023, 1, 1),
+//     uv: 4000,
+//     pv: 2400,
+//     amt: 2400,
+//   },
+//   {
+//     name: new Date(2023, 3, 1),
+//     uv: 3000,
+//     pv: 1398,
+//     amt: 2210,
+//   },
+//   {
+//     name: new Date(2023, 5, 1),
+//     uv: 2000,
+//     pv: 9800,
+//     amt: 2290,
+//   },
+//   {
+//     name: new Date(2023, 7, 1),
+//     uv: 2780,
+//     pv: 3908,
+//     amt: 2000,
+//   },
+//   {
+//     name: new Date(2023, 9, 1),
+//     uv: 1890,
+//     pv: 4800,
+//     amt: 2181,
+//   },
+//   {
+//     name: new Date(2023, 11, 1),
+//     uv: 2390,
+//     pv: 3800,
+//     amt: 2500,
+//   },
+//   {
+//     name: new Date(2024, 1, 1),
+//     uv: 6490,
+//     pv: 4300,
+//     amt: 2100,
+//   },
+//   {
+//     name: new Date(2024, 3, 1),
+//     uv: 3490,
+//     pv: 9300,
+//     amt: 2100,
+//   },
+//   {
+//     name: new Date(2024, 5, 1),
+//     uv: 3490,
+//     pv: 5300,
+//     amt: 2100,
+//   },
+//   {
+//     name: new Date(2024, 7, 1),
+//     uv: 5490,
+//     pv: 9300,
+//     amt: 2100,
+//   },
+//   {
+//     name: new Date(2024, 9, 1),
+//     uv: 3490,
+//     pv: 7300,
+//     amt: 2100,
+//   },
+//   {
+//     name: new Date(2024, 11, 1),
+//     uv: 3490,
+//     pv: 5300,
+//     amt: 2100,
+//   },
+//   {
+//     name: new Date(2025, 1, 1),
+//     uv: 3490,
+//     pv: 4300,
+//     amt: 2100,
+//   },
+// ];
 
 // Transform DataItem to LegendItem
 const legendData: LegendItem[] = DB.map((item, index) => ({
@@ -147,7 +148,6 @@ const CustomTooltip: React.FC<any> = ({ active, payload }) => {
             className={`mr-3 border-t-4 border-[#56a8de] text-center`}
             style={{ display: "inline-block", width: "20px" }}
           ></span>
-          
           <span
             className=" border-l-10 border-blue "
             style={{ borderColor: payload[0]?.color }}
@@ -156,7 +156,7 @@ const CustomTooltip: React.FC<any> = ({ active, payload }) => {
           <span>{percentageChange.toFixed(0)}%</span>
         </div>
         <div className=" bg-[#f1f1f1] flex items-center mt-2">
-        <span
+          <span
             className={`mr-3 border-t-2 border-[#95bcc2] text-center border-dashed`}
             style={{ display: "inline-block", width: "20px" }}
           ></span>
@@ -197,12 +197,13 @@ const CustomLegend: React.FC<CustomLegendProps> = ({ payload }) => {
               height: "3px",
               marginRight: "8px",
             }}
-          /> */} <span
-  className={`mr-3 border-t-4 ${index === 0 ? 'border-solid' : 'border-dashed'} border-[${entry.color}] text-center`}
-  style={{ display: "inline-block", width: "25px" }}
-></span>
-
-
+          /> */}{" "}
+          <span
+            className={`mr-3 border-t-4 ${
+              index === 0 ? "border-solid" : "border-dashed"
+            } border-[${entry.color}] text-center`}
+            style={{ display: "inline-block", width: "25px" }}
+          ></span>
           <span> {formatDate(DB[0].name.toString())}</span> {`\u00A0`}
           <span> - {formatDate(DB[DB.length - 1].name.toString())}</span>
         </li>
@@ -221,6 +222,12 @@ export const ResponsiveAreaChart = ({
     pv: 1,
   });
 
+  const [customeData, setCustomeData] =  useState<IChartDatum[]>([]);
+
+  useEffect(()=>{
+    setCustomeData(data)
+  },[])
+  // console.log('ResponsiveAreaChart data',data)
   const handleMouseEnter = (payload: any, index: number) => {
     const { dataKey } = payload;
     setOpacity((prevOpacity) => ({ ...prevOpacity, [dataKey]: 0.5 }));
@@ -249,13 +256,15 @@ export const ResponsiveAreaChart = ({
   };
 
   const memoizedRevenueData = useMemoizedChartData(DB);
+//   console.log('memoizedRevenueData',memoizedRevenueData)
+// console.log('data',data)
+// console.log('customeData',customeData)
   return (
     <ResponsiveContainer height={400}>
-
       <LineChart
         width={500}
         height={300}
-        data={memoizedRevenueData}
+        data={data && data.length > 0 ? data : memoizedRevenueData}
         margin={{
           top: 5,
           right: 30,

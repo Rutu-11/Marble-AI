@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TabItem } from "./TabItem";
 import { TabPanel } from "./TabPanel";
 import { TTab } from "../../interfaces";
@@ -9,11 +9,15 @@ type TTabViewProps = {
 
 export const TabView = ({ tabs }: TTabViewProps) => {
     const [activeTab, setActiveTab] = useState(0);
-    console.log('tabs',tabs)
+    const [Tabs, setTabs] = useState<TTab[]>([]); 
+    useEffect(()=>{
+        setTabs(tabs)
+    },[tabs])
+    // console.log('TabView',Tabs)
     return (
         <div className="mx-auto py-4  border rounded-lg shadow-md ">
             <div className="tabs">
-                {tabs?.map((tab: TTab, index: number) => (
+                {Tabs?.map((tab: TTab, index: number) => (
                     <TabItem
                         key={tab?.id}
                         label={tab?.label}

@@ -27,10 +27,17 @@ export interface IAddress {
 }
 
 export interface IChartDatum {
-    date: string;
-    value: string;
+    name: string;
+    uv: number;
+    pv:number;
+    amt:number
 }
-
+export interface RevenueData {
+    name:string;
+    uv:number;
+    pv:number;
+    amt:number
+  }
 export interface IChart {
     data: IChartDatum[];
     total: number;

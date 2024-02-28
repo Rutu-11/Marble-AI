@@ -21,13 +21,137 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 import "react-datepicker/dist/react-datepicker.css";
-
+import { RevenueData } from "../../interfaces";
+import DB from "../../DB.json"
 type IconProps = {
   id: string | number; // Assuming id is of type string or number
   open: string | number; // Assuming open is of type string or number
   onClick: () => void; // Assuming onClick is a function that doesn't return anything
 };
 
+interface RevenueDatum {
+  name: string ;
+  uv: number;
+  pv: number;
+  amt: number;
+}
+
+interface DataItem {
+  name: string ;
+  uv: number;
+  pv: number;
+  amt: number;
+}
+// const DB: RevenueDatum[] = [
+//   {
+//     name: "April 2022",
+//     uv: 3000,
+//     pv: 3400,
+//     amt: 2400,
+//   },
+//   {
+//     name: "June 2022",
+//     uv: 2000,
+//     pv: 1398,
+//     amt: 2210,
+//   },
+//   {
+//     name: "Aug 2022",
+//     uv: 4600,
+//     pv: 3400,
+//     amt: 2400,
+//   },
+//   {
+//     name: "Oct 2022",
+//     uv: 5000,
+//     pv: 3400,
+//     amt: 2400,
+//   },
+//   {
+//     name: "Dec 2022",
+//     uv: 6000,
+//     pv: 1398,
+//     amt: 2210,
+//   },
+//   {
+//     name: "Feb 2023",
+//     uv: 4000,
+//     pv: 2400,
+//     amt: 2400,
+//   },
+//   {
+//     name: "Apr 2023",
+//     uv: 3000,
+//     pv: 1398,
+//     amt: 2210,
+//   },
+//   {
+//     name: "Jun 2023",
+//     uv: 2000,
+//     pv: 9800,
+//     amt: 2290,
+//   },
+//   {
+//     name: "Aug 2023",
+//     uv: 2780,
+//     pv: 3908,
+//     amt: 2000,
+//   },
+//   {
+//     name: "Oct 2023",
+//     uv: 1890,
+//     pv: 4800,
+//     amt: 2181,
+//   },
+//   {
+//     name: "Dec 2023",
+//     uv: 2390,
+//     pv: 3800,
+//     amt: 2500,
+//   },
+//   {
+//     name: "Feb 2024",
+//     uv: 6490,
+//     pv: 4300,
+//     amt: 2100,
+//   },
+//   {
+//     name: "Apr 2024",
+//     uv: 3490,
+//     pv: 9300,
+//     amt: 2100,
+//   },
+//   {
+//     name: "Jun 2024",
+//     uv: 3490,
+//     pv: 5300,
+//     amt: 2100,
+//   },
+//   {
+//     name: "Aug 2024",
+//     uv: 5490,
+//     pv: 9300,
+//     amt: 2100,
+//   },
+//   {
+//     name: "Oct 2024",
+//     uv: 3490,
+//     pv: 7300,
+//     amt: 2100,
+//   },
+//   {
+//     name: "Dec 2024",
+//     uv: 3490,
+//     pv: 5300,
+//     amt: 2100,
+//   },
+//   {
+//     name: "Feb 2025",
+//     uv: 3490,
+//     pv: 4300,
+//     amt: 2100,
+//   },
+// ];
 function Icon({ id, open, onClick }: IconProps) {
   return (
     <svg
@@ -55,6 +179,8 @@ type TStats = {
   dailyRevenue?: GetListResponse<IChartDatum>;
   dailyOrders?: GetListResponse<IChartDatum>;
   newCustomers?: GetListResponse<IChartDatum>;
+  filteredRevenueData: RevenueData[]; // Add filteredRevenueData prop here
+  setFilteredRevenueData: React.Dispatch<React.SetStateAction<RevenueData[]>>;
   tabs?: TTab[];
 };
 type AccordionProps = {
@@ -62,14 +188,23 @@ type AccordionProps = {
   // Other props...
 };
 
-const Stats = ({ dailyRevenue, dailyOrders, newCustomers, tabs }: TStats) => {
+const Stats: React.FC<TStats> = ({ dailyRevenue, dailyOrders, newCustomers, filteredRevenueData, setFilteredRevenueData, tabs }) => {
   //   const { EditOnHover } = Images;
   const [open, setOpen] = React.useState(1);
 
   const [isLoading, setIsLoading] = useState(true); // State to track loading status
 
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState("2024-01-28");
+  const [endDate, setEndDate] = useState("2024-11-28");
+  const [Tabs, setTabs] = useState(tabs);
+  const [revenueData, setRevenueData] = useState<RevenueDatum[]>([]);
+  // const revenueData = tabs? tabs[0].content.props.data :[]
+
+  useEffect(()=>{
+    setRevenueData(tabs? tabs[0].content.props.data :[]);
+  },[tabs])
+
+  // console.log('revenueData ============================',revenueData)
 
   const handleStartDateChange = (date:any) => {
     setStartDate(date);
@@ -87,6 +222,8 @@ const Stats = ({ dailyRevenue, dailyOrders, newCustomers, tabs }: TStats) => {
 
     return () => clearTimeout(timeout);
   }, []); // Run only on mount
+
+
   const handleOpen = (value: number | string) => {
     setOpen((prevOpen) =>
       prevOpen === value
@@ -100,7 +237,111 @@ const Stats = ({ dailyRevenue, dailyOrders, newCustomers, tabs }: TStats) => {
   const toggleAccordion = () => {
     setOpen(open === 1 ? 0 : 1); // Toggle to open if currently closed, or close if currently open
   };
+
+  
+  function formatDate(dateString: string): string {
+    const dateObj = new Date(dateString);
+    const month = dateObj.toLocaleString('default', { month: 'short' });
+    const year = dateObj.getFullYear();
+    return `${month} ${year}`;
+  }
+  
+  const filteredRevenueData1 = DB.filter((item) => {
+    const currentDate = new Date(item.name);
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
+
+    // Extract month and year from currentDate, startDateObj, and endDateObj
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    const startMonth = startDateObj.getMonth();
+    const startYear = startDateObj.getFullYear();
+    const endMonth = endDateObj.getMonth();
+    const endYear = endDateObj.getFullYear();
+
+    // Compare only month and year
+    return (
+        (currentYear > startYear || (currentYear === startYear && currentMonth >= startMonth)) &&
+        (currentYear < endYear || (currentYear === endYear && currentMonth <= endMonth))
+    );
+});
+
+
+
+  // function filterRevenueData(revenueData: RevenueDatum[], startDate: string | null, endDate: string | null): RevenueDatum[] {
+  //  console.log("ppppppppppppp======================================")
+  //   console.log('startDate',startDate,"endDate",endDate,revenueData)
+  //   const filteredRevenueData = revenueData.filter((item) => {
+  //     const currentDate = new Date(item.name);
+  //     const startDateObj = startDate ? new Date(startDate) : new Date();
+  //     const endDateObj = endDate ? new Date(endDate) : new Date();
+  //     return currentDate >= startDateObj && currentDate <= endDateObj;
+  //   });
+  //   console.log('filterrrrrrrrrrrrrrrrrrrrrr',filteredRevenueData)
+  //   return filteredRevenueData;
+  // }
+
+
+  // if (startDate) {
+  //   filteredRevenueData1.unshift({
+  //     name: formatDate(startDate),
+  //     uv: 5003,
+  //     pv: 3450,
+  //     amt: 5500,
+  //   });
+  // }
+  
+  // if (endDate) {
+  //   filteredRevenueData1.push({
+  //     name: formatDate(endDate),
+  //     uv: 7050,
+  //     pv: 4500,
+  //     amt: 8000,
+  //   });
+  // }
+
+  useEffect(() => {
+    // setRevenueData(filteredRevenueData1);
+    // let filteredRevenueData1: RevenueDatum[] = filterRevenueData(DB, startDate, endDate);
+    // console.log('filteredRevenueData1 useEffect@@@@@@@@@@@@@@###############################',filteredRevenueData1)
+    // console.log('revenueData useEffect',revenueData)
+    setFilteredRevenueData(filteredRevenueData1)
+    if (Tabs && Tabs[0].content) {
+      const newData = [...Tabs[0].content.props.data]; // Clone the data array
+      // console.log('newData',newData)
+      newData.splice(0, newData.length, ...revenueData); // Replace the content of newData with revenueData
+      setTabs(prevTabs => {
+        if (prevTabs) {
+          return [{ ...prevTabs[0], content: { ...prevTabs[0].content, props: { ...prevTabs[0].content.props, data: newData } } }, ...prevTabs.slice(1)];
+        }
+        return prevTabs; // Return undefined if prevTabs is undefined
+      });
+    
+    }
+    
+  }, [startDate, endDate]);
+  
+  // useEffect(() => {
+  //   if (tabs && tabs[0].content) {
+  //     const newData = [...tabs[0].content.props.data]; // Clone the data array
+  //     newData.splice(0, newData.length, ...revenueData); // Replace the content of newData with revenueData
+      // setTabs(prevTabs => {
+      //   if (prevTabs) {
+      //     return [{ ...prevTabs[0], content: { ...prevTabs[0].content, props: { ...prevTabs[0].content.props, data: newData } } }, ...prevTabs.slice(1)];
+      //   }
+      //   return prevTabs; // Return undefined if prevTabs is undefined
+      // });
+  //   }
+  // }, []);
+  
+  
+  
+  console.log("filteredRevenueData", filteredRevenueData);
 console.log('date', startDate,endDate)
+// if(tabs){
+//   console.log('tabs stats', Tabs)
+//   console.log('revenueData', revenueData)
+// }
   return (
     <>
       <Accordion open={open === 1} id="1" placeholder="your_placeholder_value">
@@ -168,7 +409,9 @@ console.log('date', startDate,endDate)
           id="accordion-id"
           placeholder="your_placeholder_value"
         >
-          <div className="flex border border-green-500 w-[90%] justify-end" >
+          
+          <div className="flex  border-green-500 w-[95%] justify-end" >
+          <p className="text-xs text-center mr-[2rem]" ><b>Note: </b> Since its a mock data you can pick the date from  <b>March 2023</b> to <b>Dec 2024</b> only for better user experience </p>
           <div className="my-2 flex items-center mr-[4rem]">
             <label
               htmlFor="start_date"
@@ -201,8 +444,8 @@ console.log('date', startDate,endDate)
           </div>
         </AccordionHeader>
         <AccordionBody>
-          {!isLoading && tabs ? (
-            <TabView tabs={tabs} />
+          {!isLoading && Tabs ? (
+            <TabView tabs={Tabs} />
           ) : (
             <SkeletonTheme baseColor="#e3e3e3" highlightColor="#878787">
               <p style={{ marginBottom: "5px" }}>
