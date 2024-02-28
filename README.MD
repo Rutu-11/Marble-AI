@@ -2,7 +2,7 @@
 
 ## Description
 
-This project is a web application created using React and Refine, and various other npm packages to implement a pixel-perfect UI design based on a provided Figma template. The application utilizes several npm packages for UI components, data visualization, and state management. It includes features such as loading skeletons for displaying loading states, line charts for visualizing data, mouse-over events for displaying pop-ups, and accordions for toggling the visibility of components.
+This project is a web application created using React and Refine, and various other npm packages to implement a pixel-perfect UI design based on a provided Figma template. The application utilizes several npm packages for UI components, data visualization, and state management. It includes features such as loading skeletons for displaying loading states, line charts for visualizing data, sustome date-picker integration with LineChart, mouse-over events for displaying pop-ups, and accordions for toggling the visibility of components.
 
 
 ## User Interface
