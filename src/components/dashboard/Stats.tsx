@@ -221,9 +221,8 @@ const Stats: React.FC<TStats> = ({
           <div className="w-[100%] md:w-[10%] lg:w-[10%] flex h-[7.3rem] mt-2 items-center justify-center border bg-white">
             {isLoading ? (
               <SkeletonTheme baseColor="#e3e3e3" highlightColor="#878787">
-                <p style={{ marginBottom: "5px" }}>
-                  <Skeleton className="w-14 md:w-28 h-32 md:h-15" />
-                </p>
+                <Skeleton width={122} height={118} />{" "}
+                {/* Adjust dimensions as needed */}
               </SkeletonTheme>
             ) : (
               <div className="w-full md:w-10 h-32 md:h-5 lg:h-5 lg:w-10 mx-auto flex items-center justify-center">
@@ -238,41 +237,49 @@ const Stats: React.FC<TStats> = ({
           id="accordion-id"
           placeholder="your_placeholder_value"
         >
-          <div className="flex flex-col md:flex-row  border-green-500 md:w-full justify-end">
-            <p className="text-xs text-center md:text-left md:mr-8">
-              <b>Note: </b> Since it's mock data, you can pick the date from{" "}
-              <b>July 2023</b> to <b>Dec 2024</b> only for better user
-              experience{" "}
-            </p>
-            <div className="my-2 flex flex-col md:flex-row items-center md:mr-4">
-              <label
-                htmlFor="start_date"
-                className="mr-2 md:mr-4 text-sm font-medium text-gray-700 whitespace-nowrap"
-              >
-                Start Date
-              </label>
-              <input
-                id="start_date"
-                type="date"
-                className="appearance-none bg-gray-200 text-sm text-gray-700 border border-gray-200 rounded py-2 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 focus:border-none"
-                onChange={(e) => handleStartDateChange(e.target.value)}
-              />
-            </div>
-            <div className="my-2 flex flex-col md:flex-row items-center">
-              <label
-                htmlFor="end_date"
-                className="mr-2 md:mr-4 text-sm font-medium text-gray-700 whitespace-nowrap"
-              >
-                End Date
-              </label>
-              <input
-                id="end_date"
-                type="date"
-                className="appearance-none bg-gray-200 text-sm text-gray-700 border border-gray-200 rounded py-2 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 focus:border-none"
-                onChange={(e) => handleEndDateChange(e.target.value)}
-              />
-            </div>
-          </div>
+          {isLoading ? (
+  <SkeletonTheme baseColor="#e3e3e3" highlightColor="#878787">
+    <Skeleton width={"100vw"} height={"10vh"} /> {/* Adjust dimensions as needed */}
+  </SkeletonTheme>
+) : (
+<div className="flex flex-col md:flex-row justify-between items-center border-green-500 md:w-full">
+  <p className="text-xs text-center md:text-left md:mr-8">
+    <b>Note: </b> Since it's mock data, you can pick the date from{" "}
+    <b>July 2023</b> to <b>Dec 2024</b> only for better user experience{" "}
+  </p>
+  <div className="my-2 flex flex-col md:flex-row items-center md:mr-4">
+    <label
+      htmlFor="start_date"
+      className="mr-2 md:mr-4 text-sm font-medium text-gray-700 whitespace-nowrap"
+    >
+      Start Date
+    </label>
+    <input
+      id="start_date"
+      type="date"
+      className="appearance-none bg-gray-200 text-sm text-gray-700 border border-gray-200 rounded py-2 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 focus:border-none"
+      onChange={(e) => handleStartDateChange(e.target.value)}
+    />
+  </div>
+  <div className="my-2 flex flex-col md:flex-row items-center">
+    <label
+      htmlFor="end_date"
+      className="mr-2 md:mr-4 text-sm font-medium text-gray-700 whitespace-nowrap"
+    >
+      End Date
+    </label>
+    <input
+      id="end_date"
+      type="date"
+      className="appearance-none bg-gray-200 text-sm text-gray-700 border border-gray-200 rounded py-2 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 focus:border-none"
+      onChange={(e) => handleEndDateChange(e.target.value)}
+    />
+  </div>
+</div>
+
+)}
+
+        
         </AccordionHeader>
         <AccordionBody>
           {!isLoading && Tabs ? (
